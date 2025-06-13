@@ -20,11 +20,32 @@ document.addEventListener("DOMContentLoaded", () => {
 
         const spotsLeft = details.max_participants - details.participants.length;
 
+        // Lista de participantes mostrando o e-mail completo
+        let participantsHTML = "";
+        if (details.participants.length > 0) {
+          participantsHTML = `
+            <div class="participants-list">
+              <p><strong>Participants (${details.participants.length}):</strong></p>
+              <div class="participants-badges">
+                ${details.participants
+                  .map(
+                    email =>
+                      `<span class="participant-badge" title="${email}">${email}</span>`
+                  )
+                  .join(" ")}
+              </div>
+            </div>
+          `;
+        } else {
+          participantsHTML = `<p><strong>Participants:</strong> <span class="no-participants">None yet</span></p>`;
+        }
+
         activityCard.innerHTML = `
           <h4>${name}</h4>
           <p>${details.description}</p>
           <p><strong>Schedule:</strong> ${details.schedule}</p>
           <p><strong>Availability:</strong> ${spotsLeft} spots left</p>
+          ${participantsHTML}
         `;
 
         activitiesList.appendChild(activityCard);
